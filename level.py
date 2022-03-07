@@ -1,4 +1,7 @@
 import pygame
+from settings import *
+from tiles import Tile
+from player import Player
 
 
 class Level:
@@ -10,5 +13,18 @@ class Level:
         self.visible_sprites = pygame.sprite.Group()
         self.obstacle_sprites = pygame.sprite.Group()
 
+        # sprite setup
+        self.create_map()
+
+    def create_map(self):
+        for row_index, row in enumerate(world_map):
+            for col_index, col in enumerate(row):
+                x = col_index * tile_size
+                y = row_index * tile_size
+                if col == 'x':
+                    Tile((x, y), [self.visible_sprites])
+                if col == 'P':
+                    Player((x, y), [self.visible_sprites])
+
     def run(self):
-        pass
+        self.visible_sprites.draw(self.display_surface)
