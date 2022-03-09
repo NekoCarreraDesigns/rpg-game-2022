@@ -1,5 +1,8 @@
+# imports for the rpg game
 import pygame
 from settings import *
+
+# Tile class to display the static sprites for the game
 
 
 class Tile(pygame.sprite.Sprite):
