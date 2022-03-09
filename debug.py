@@ -1,6 +1,9 @@
+# imports for rpg game
 import pygame
 pygame.init()
 font = pygame.font.Font(None, 30)
+
+# debug function for rpg game
 
 
 def debug(info, y=10, x=10):
