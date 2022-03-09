@@ -1,3 +1,4 @@
+# imports for the rpg game
 import pygame
 import sys
 from settings import *
@@ -40,6 +41,7 @@ class Game:
             self.clock.tick(fps)
 
 
+# conditional for game class to run the rpg game
 if __name__ == '__main__':
     game = Game()
     game.run()
