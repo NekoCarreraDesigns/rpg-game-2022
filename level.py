@@ -1,8 +1,11 @@
+# imports for rpg game
 import pygame
 from settings import *
 from tiles import Tile
 from player import Player
 from debug import debug
+
+# Level class to run the logic of the game, contains sprites, and methods to display sprites
 
 
 class Level:
@@ -16,6 +19,8 @@ class Level:
 
         # sprite setup
         self.create_map()
+
+# method to create the map of the game
 
     def create_map(self):
         for row_index, row in enumerate(world_map):
@@ -32,6 +37,9 @@ class Level:
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
 
+# This is the class for camera movement, and to display the character offset of the
+# background, inherits sprites, from level and Player.
+
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -40,6 +48,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.half_width = self.display_surface.get_size()[0] // 2
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
+
+# draw method for the camera class
 
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width
