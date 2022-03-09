@@ -1,5 +1,8 @@
+# imports for the rpg game
 import pygame
 from settings import *
+
+# Player class to display the player sprite
 
 
 class Player(pygame.sprite.Sprite):
@@ -16,6 +19,8 @@ class Player(pygame.sprite.Sprite):
 
         # collisions
         self.obstacle_sprites = obstacle_sprites
+
+# method for player input
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -34,6 +39,8 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
+# method for movement direction on the x and y axis, with speed correction for diagonal movement
+
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
@@ -43,6 +50,8 @@ class Player(pygame.sprite.Sprite):
         self.hitbox.y += self.direction.y * speed
         self.collision('vertical')
         self.rect.center = self.hitbox.center
+
+# collision detection for vertical and horizontal collisions within level with static sprites
 
     def collision(self, direction):
         if direction == 'horizontal':
@@ -60,6 +69,8 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
+
+# Update method to update player character input, and movement
 
     def update(self):
         self.input()
