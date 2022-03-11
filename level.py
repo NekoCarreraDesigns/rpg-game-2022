@@ -4,6 +4,8 @@ from settings import *
 from tiles import Tile
 from player import Player
 from debug import debug
+from random import choice
+from support import import_csv_layout, import_folder
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -23,15 +25,37 @@ class Level:
 # method to create the map of the game
 
     def create_map(self):
-        for row_index, row in enumerate(world_map):
-            for col_index, col in enumerate(row):
-                x = col_index * tile_size
-                y = row_index * tile_size
-                if col == 'x':
-                    Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
-                if col == 'P':
-                    self.player = Player(
-                        (x, y), [self.visible_sprites], self.obstacle_sprites)
+        layouts = {
+            'boundary': import_csv_layout('./level graphics/world_map/world_map_playerblocks.csv'),
+            'grass': import_csv_layout('./level graphics/world_map/world_map_grass.csv'),
+            'objects': import_csv_layout('./level graphics/world_map/world_map_objects.csv')
+        }
+
+        graphics = {
+            'grass': import_folder('./level graphics/graphics/grass')
+        }
+
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * tile_size
+                        y = row_index * tile_size
+                        if style == 'boundary':
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'grass':
+                            random_grass_image = choice(graphics['grass'])
+                            Tile((x, y), [
+                                 self.visible_sprites, self.obstacle_sprites], 'grass', random_grass_image)
+                        if style == 'objects':
+                            pass
+        #         if col == 'x':
+        #             Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
+        #         if col == 'P':
+        #             self.player = Player(
+        #                 (x, y), [self.visible_sprites], self.obstacle_sprites)
+        self.player = Player(
+            (2000, 1430), [self.visible_sprites], self.obstacle_sprites)
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
