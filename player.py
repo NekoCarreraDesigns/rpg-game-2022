@@ -1,6 +1,7 @@
 # imports for the rpg game
 import pygame
 from settings import *
+from support import import_folder
 
 # Player class to display the player sprite
 
@@ -13,6 +14,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -26)
 
+        # graphics setup
+        self.import_player_assets()
+
         # player movement
         self.direction = pygame.math.Vector2()
         self.speed = 5
@@ -21,6 +25,18 @@ class Player(pygame.sprite.Sprite):
         self.attack_time = None
         # collisions
         self.obstacle_sprites = obstacle_sprites
+# player animations
+
+
+def import_player_assets(self):
+    character_path = '.level graphics/graphics/player/'
+    self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
+                       'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
+                       'right_attack': [], 'left_attack': [], 'up_attack': [], 'down_attack': []}
+    for animation in self.animations.keys():
+        full_path = character_path + animation
+        self.animations[animation] = import_folder(full_path)
+    print(self.animations)
 
 # method for player input
 
@@ -55,6 +71,7 @@ class Player(pygame.sprite.Sprite):
 
 # method for movement direction on the x and y axis, with speed correction for diagonal movement
 
+
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
@@ -83,6 +100,7 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
+# cooldown method for attackingand magic
 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
