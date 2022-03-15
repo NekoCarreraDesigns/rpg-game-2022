@@ -59,6 +59,7 @@ class Level:
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        debug(self.player.status)
 
 # This is the class for camera movement, and to display the character offset of the
 # background, inherits sprites, from level and Player.
