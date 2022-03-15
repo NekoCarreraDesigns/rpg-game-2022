@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
-            if not "attack" in self.status:
+            if not 'attack' in self.status:
                 if 'idle' in self.status:
                     self.status = self.status.replace('_idle', '_attack')
                 else:
@@ -139,12 +139,19 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         animation = self.animations[self.status]
 
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center=self.hitbox.center)
+
 
 # Update method to update player character input, and movement
 
 
     def update(self):
         self.input()
-        self.get_status()
         self.cooldowns()
+        self.get_status()
+        self.animate()
         self.move(self.speed)
