@@ -42,7 +42,6 @@ class Player(pygame.sprite.Sprite):
 
 # method for player status
 
-
     def get_status(self):
         # idle status
         if self.direction.x == 0 and self.direction.y == 0:
@@ -63,40 +62,41 @@ class Player(pygame.sprite.Sprite):
 # method for player input
 
     def input(self):
-        keys = pygame.key.get_pressed()
-        # movement input
-        if keys[pygame.K_UP]:
-            self.direction.y = -1
-            self.status = 'up'
-        elif keys[pygame.K_DOWN]:
-            self.direction.y = 1
-            self.status = 'down'
-        else:
-            self.direction.y = 0
+        if not self.attacking:
+            keys = pygame.key.get_pressed()
+            # movement input
+            if keys[pygame.K_UP]:
+                self.direction.y = -1
+                self.status = 'up'
+            elif keys[pygame.K_DOWN]:
+                self.direction.y = 1
+                self.status = 'down'
+            else:
+                self.direction.y = 0
 
-        if keys[pygame.K_RIGHT]:
-            self.direction.x = 1
-            self.status = 'right'
-        elif keys[pygame.K_LEFT]:
-            self.direction.x = -1
-            self.status = 'left'
-        else:
-            self.direction.x = 0
+            if keys[pygame.K_RIGHT]:
+                self.direction.x = 1
+                self.status = 'right'
+            elif keys[pygame.K_LEFT]:
+                self.direction.x = -1
+                self.status = 'left'
+            else:
+                self.direction.x = 0
 
-        # attack input
-        if keys[pygame.K_SPACE] and not self.attacking:
-            self.attacking = True
-            self.attack_time = pygame.time.get_ticks()
-            self.status = 'attack'
-            print('attack')
+            # attack input
+            if keys[pygame.K_SPACE]:
+                self.attacking = True
+                self.attack_time = pygame.time.get_ticks()
+                print('attack')
         # magic input
-        if keys[pygame.K_LCTRL] and not self.attacking:
+        if keys[pygame.K_LCTRL]:
             self.attacking = True
             self.attack_time = pygame.time.get_ticks()
             print('magic')
 
 
 # method for movement direction on the x and y axis, with speed correction for diagonal movement
+
 
     def move(self, speed):
         if self.direction.magnitude() != 0:
@@ -147,7 +147,6 @@ class Player(pygame.sprite.Sprite):
 
 
 # Update method to update player character input, and movement
-
 
     def update(self):
         self.input()
