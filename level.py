@@ -6,6 +6,7 @@ from player import Player
 from debug import debug
 from random import choice
 from support import import_csv_layout, import_folder
+from weapon import Weapon
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -54,7 +55,11 @@ class Level:
                                  self.obstacle_sprites], 'objects', surf)
 
         self.player = Player(
-            (2000, 1430), [self.visible_sprites], self.obstacle_sprites)
+            (2000, 1430), [self.visible_sprites], self.obstacle_sprites, self.create_attack)
+
+# method for adding the weapon animations
+    def create_attack(self):
+        Weapon(self.player, [self.visible_sprites])
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
