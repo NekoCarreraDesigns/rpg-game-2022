@@ -7,7 +7,7 @@ screen_height = 720
 # ui
 bar_height = 20
 health_bar_width = 200
-Energy_bar_width = 140
+energy_bar_width = 140
 item_box_size = 80
 ui_font = './level graphics/graphics/font/joystix.ttf'
 ui_font_size = 18
