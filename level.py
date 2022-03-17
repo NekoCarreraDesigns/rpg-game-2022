@@ -3,10 +3,10 @@ import pygame
 from settings import *
 from tiles import Tile
 from player import Player
-from debug import debug
 from random import choice
 from support import import_csv_layout, import_folder
 from weapon import Weapon
+from ui import UI
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -25,6 +25,9 @@ class Level:
 
         # sprite setup
         self.create_map()
+
+        # user interface
+        self.ui = UI()
 
 # method to create the map of the game
 
@@ -73,7 +76,8 @@ class Level:
     def run(self):
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
-        debug(self.player.status)
+        self.ui.display(self.player)
+
 
 # This is the class for camera movement, and to display the character offset of the
 # background, inherits sprites, from level and Player.
