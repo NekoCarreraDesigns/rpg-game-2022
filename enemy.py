@@ -4,7 +4,9 @@ import pygame
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-
+        self.frame_index = 0
+        self.animation_speed = 0.15
+        self.direction = pygame.math.Vector2()
     # method for movement direction on the x and y axis, with speed correction for diagonal movement
 
     def move(self, speed):
