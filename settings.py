@@ -30,3 +30,8 @@ weapon_data = {
     'axe': {'cooldown': 300, 'damage': 20, 'graphic': './level graphics/graphics/weapons/axe/full.png'},
     'rapier': {'cooldown': 50, 'damage': 8, 'graphic': './level graphics/graphics/weapons/rapier/full.png'},
     'sai': {'cooldown': 80, 'damage': 10, 'graphic': './level graphics/graphics/weapons/sai/full.png'}}
+
+# magic spells
+magic_data = {
+    'flame': {'strength': 5, 'cost': 20, 'graphic': './level graphics/graphics/particles/flame/fire.png'},
+    'heal': {'strength': 20, 'cost': 10, 'graphic': './level graphics/graphics/particles/heal/heal.png'}}
