@@ -7,6 +7,7 @@ from random import choice
 from support import import_csv_layout, import_folder
 from weapon import Weapon
 from ui import UI
+from monster import Monster
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -35,7 +36,8 @@ class Level:
         layouts = {
             'boundary': import_csv_layout('./level graphics/world_map/world_map_playerblocks.csv'),
             'grass': import_csv_layout('./level graphics/world_map/world_map_grass.csv'),
-            'objects': import_csv_layout('./level graphics/world_map/world_map_objects.csv')
+            'objects': import_csv_layout('./level graphics/world_map/world_map_objects.csv'),
+            'enemies': import_csv_layout('./level graphics/world_map/world_map_enemies.csv')
         }
 
         graphics = {
@@ -59,15 +61,15 @@ class Level:
                             surf = graphics['objects'][int(col)]
                             Tile((x, y), [self.visible_sprites,
                                  self.obstacle_sprites], 'objects', surf)
-
-        self.player = Player(
-            (2000, 1430),
-            [self.visible_sprites],
-            self.obstacle_sprites,
-            self.create_attack,
-            self.destroy_attack,
-            self.create_magic,
-        )
+                        if style == 'enemies':
+                            if col == '394':
+                                self.player = Player(
+                                    (x, y),
+                                    [self.visible_sprites],
+                                    self.obstacle_sprites,
+                                    self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic)
 
 # method for adding the weapon animations
     def create_attack(self):
