@@ -61,13 +61,27 @@ class Level:
                                  self.obstacle_sprites], 'objects', surf)
 
         self.player = Player(
-            (2000, 1430), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack)
+            (2000, 1430),
+            [self.visible_sprites],
+            self.obstacle_sprites,
+            self.create_attack,
+            self.destroy_attack,
+            self.create_magic,
+        )
 
 # method for adding the weapon animations
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites])
 
+# method for magic ability
+    def create_magic(self, style, strength, cost):
+        print(style)
+        print(strength)
+        print(cost)
+
+
 # method for destroying the weapon after its animation
+
     def destroy_attack(self):
         if self.current_attack:
             self.current_attack.kill()
