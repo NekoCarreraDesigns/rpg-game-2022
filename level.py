@@ -70,8 +70,11 @@ class Level:
                                     self.create_attack,
                                     self.destroy_attack,
                                     self.create_magic)
-
+                            else:
+                                Monster('monster', (x, y), [
+                                        self.visible_sprites])
 # method for adding the weapon animations
+
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites])
 
