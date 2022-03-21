@@ -1,4 +1,4 @@
-# Title: Targaryen Adventure: From Valyria, With Blood and Fire
+# Title: Targaryen Adventure: From Valyria, With Fire and Blood
 
 ![last commit](https://img.shields.io/github/last-commit/NekoCarreraDesigns/rpg-game-2022?style=flat-square)![license badge](https://img.shields.io/github/license/NekoCarreraDesigns/rpg-game-2022?style=flat-square)
 
@@ -18,7 +18,7 @@ Zelda style rpg game, with some spice
 
 ## Installation
 
-` soon to be made into an executable file `
+`soon to be made into an executable file`
 
 ## Usage
 
