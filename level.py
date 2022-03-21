@@ -71,8 +71,17 @@ class Level:
                                     self.destroy_attack,
                                     self.create_magic)
                             else:
-                                Monster('monster', (x, y), [
+                                if col == '390':
+                                    monster_name = 'bamboo'
+                                elif col == '391':
+                                    monster_name = 'spirit'
+                                elif col == '392':
+                                    monster_name = 'raccoon'
+                                else:
+                                    monster_name = 'squid'
+                                Monster(monster_name, (x, y), [
                                         self.visible_sprites])
+
 # method for adding the weapon animations
 
     def create_attack(self):
