@@ -53,8 +53,14 @@ class Player(Enemy):
         self.exp = 420
         self.speed = self.stats['speed']
 
+        # damage timer
+        self.vulnerable = True
+        self.player_hit_time = None
+        self.player_hit_duration = 500
+
 
 # player animations
+
 
     def import_player_assets(self):
         character_path = './level graphics/graphics/player/'
@@ -67,6 +73,7 @@ class Player(Enemy):
 
 
 # method for player status
+
 
     def get_status(self):
         # idle status
@@ -160,6 +167,9 @@ class Player(Enemy):
             if current_time - self.magic_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_magic = True
 
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.player_hit_duration:
+                self.vulnerable = True
 # method for player animations for idle, attack, and movement
 
     def animate(self):
@@ -171,6 +181,11 @@ class Player(Enemy):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 # damage function for weapon damage
 
     def get_full_weapon_damage(self):
