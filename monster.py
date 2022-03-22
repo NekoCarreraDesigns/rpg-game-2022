@@ -5,7 +5,7 @@ from support import *
 
 
 class Monster(Enemy):
-    def __init__(self, monster_name, pos, groups, obstacle_sprites):
+    def __init__(self, monster_name, pos, groups, obstacle_sprites, damage_player):
         super().__init__(groups)
         self.sprite_type = 'enemy'
 
@@ -35,6 +35,7 @@ class Monster(Enemy):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = 400
+        self.damage_player = damage_player
 
         # hit timer
         self.vulnerable = True
@@ -71,9 +72,9 @@ class Monster(Enemy):
             self.status = 'idle'
 
     def actions(self, player):
-        if self.status == ' attack':
+        if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
-            print('attack')
+            self.damage_player(self.attack_damage, self.attack_type)
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -90,6 +91,12 @@ class Monster(Enemy):
             self.frame_index = 0
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center=self.hitbox.center)
+
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
