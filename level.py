@@ -1,5 +1,6 @@
 # imports for rpg game
 import pygame
+from particles import AnimationPlayer
 from settings import *
 from tiles import Tile
 from player import Player
@@ -8,6 +9,7 @@ from support import import_csv_layout, import_folder
 from weapon import Weapon
 from ui import UI
 from monster import Monster
+from random import randint
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -31,6 +33,9 @@ class Level:
 
         # user interface
         self.ui = UI()
+
+        # particles
+        self.animation_player = AnimationPlayer()
 
 # method to create the map of the game
 
@@ -89,7 +94,7 @@ class Level:
                                         (x, y),
                                         [self.visible_sprites,
                                             self.attackable_sprites],
-                                        self.obstacle_sprites, self.damage_player)
+                                        self.obstacle_sprites, self.damage_player, self.trigger_death_particles)
 
 # method for adding the weapon animations
 
@@ -121,6 +126,11 @@ class Level:
                 if collision_sprites:
                     for target_sprite in collision_sprites:
                         if target_sprite.sprite_type == 'grass':
+                            offset = pygame.math.Vector2(0, 75)
+                            pos = target_sprite.rect.center
+                            for leaf in range(randint(3, 6)):
+                                self.animation_player.create_grass_particles(
+                                    pos - offset, [self.visible_sprites])
                             target_sprite.kill()
                         else:
                             target_sprite.get_damage(
@@ -131,6 +141,12 @@ class Level:
             self.player.health -= amount
             self.player.vulnerable = True
             self.player.hurt_time = pygame.time.get_ticks()
+            self.animation_player.create_particles(
+                attack_type, self.player.rect.center, [self.visible_sprites])
+
+    def trigger_death_particles(self, pos, particle_type):
+        self.animation_player.create_particles(
+            particle_type, pos, self.visible_sprites)
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
