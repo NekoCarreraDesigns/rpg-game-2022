@@ -186,12 +186,19 @@ class Player(Enemy):
             self.image.set_alpha(alpha)
         else:
             self.image.set_alpha(255)
+
 # damage function for weapon damage
 
     def get_full_weapon_damage(self):
         base_damage = self.stats['attack']
         weapon_damage = weapon_data[self.weapon]['damage']
         return base_damage + weapon_damage
+
+# function for getting magic damage
+    def get_full_magic_damage(self):
+        base_damage = self.stats['magic']
+        spell_damage = magic_data[self.magic]['strength']
+        return base_damage + spell_damage
 
 # function for energy recovery
     def energy_recovery(self):
