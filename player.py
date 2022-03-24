@@ -193,6 +193,13 @@ class Player(Enemy):
         weapon_damage = weapon_data[self.weapon]['damage']
         return base_damage + weapon_damage
 
+# function for energy recovery
+    def energy_recovery(self):
+        if self.energy < self.stats['energy']:
+            self.energy += 0.01 * self.stats['magic']
+        else:
+            self.energy = self.stats['energy']
+
 # Update method to update player character input, and movement
 
     def update(self):
@@ -201,3 +208,4 @@ class Player(Enemy):
         self.get_status()
         self.animate()
         self.move(self.speed)
+        self.energy_recovery()
