@@ -10,6 +10,7 @@ from weapon import Weapon
 from ui import UI
 from monster import Monster
 from random import randint
+from magic import MagicPlayer
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -36,6 +37,7 @@ class Level:
 
         # particles
         self.animation_player = AnimationPlayer()
+        self.magic_player = MagicPlayer(self.animation_player)
 
 # method to create the map of the game
 
@@ -104,9 +106,11 @@ class Level:
 
 # method for magic ability
     def create_magic(self, style, strength, cost):
-        print(style)
-        print(strength)
-        print(cost)
+        if style == 'heal':
+            self.magic_player.heal(self.player, strength, cost, [
+                                   self.visible_sprites])
+        if style == 'flame':
+            pass
 
 
 # method for destroying the weapon after its animation
