@@ -54,7 +54,7 @@ class Player(Enemy):
                              'attack': 100, 'magic': 100, 'speed': 100}
         self.health = self.stats['health'] * 0.5
         self.energy = self.stats['energy'] * 0.8
-        self.exp = 420
+        self.exp = 500
         self.speed = self.stats['speed']
 
         # damage timer
@@ -134,7 +134,7 @@ class Player(Enemy):
                     self.magic_index]['strength']
                 cost = list(magic_data.values())[self.magic_index]['cost']
                 self.create_magic(style, strength, cost)
-            # weapon change
+            # change weapon
             if keys[pygame.K_q] and self.can_switch_weapon:
                 self.can_switch_weapon = False
                 self.weapon_switch_time = pygame.time.get_ticks()
