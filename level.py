@@ -4,13 +4,14 @@ from particles import AnimationPlayer
 from settings import *
 from tiles import Tile
 from player import Player
-from random import choice
-from support import import_csv_layout, import_folder
+from random import choice, randint
+from support import *
 from weapon import Weapon
 from ui import UI
 from monster import Monster
-from random import randint
 from magic import MagicPlayer
+from upgrade import Upgrade
+
 
 # Level class to run the logic of the game, contains sprites, and methods to display sprites
 
@@ -19,6 +20,7 @@ class Level:
     def __init__(self):
         # display the game
         self.display_surface = pygame.display.get_surface()
+        self.game_paused = False
 
         # sprite groups
         self.visible_sprites = YSortCameraGroup()
@@ -34,6 +36,7 @@ class Level:
 
         # user interface
         self.ui = UI()
+        self.upgrade = Upgrade(self.player)
 
         # particles
         self.animation_player = AnimationPlayer()
@@ -66,14 +69,14 @@ class Level:
                             random_grass_image = choice(graphics['grass'])
                             Tile((x, y),
                                  [self.visible_sprites,
-                                  self.obstacle_sprites,
-                                  self.attackable_sprites],
+                                     self.obstacle_sprites,
+                                     self.attackable_sprites],
                                  'grass',
                                  random_grass_image)
                         if style == 'objects':
                             surf = graphics['objects'][int(col)]
                             Tile((x, y), [self.visible_sprites,
-                                 self.obstacle_sprites], 'objects', surf)
+                                          self.obstacle_sprites], 'objects', surf)
                         if style == 'enemies':
                             if col == '394':
                                 self.player = Player(
@@ -95,7 +98,7 @@ class Level:
                                 Monster(monster_name,
                                         (x, y),
                                         [self.visible_sprites,
-                                            self.attackable_sprites],
+                                         self.attackable_sprites],
                                         self.obstacle_sprites,
                                         self.damage_player,
                                         self.trigger_death_particles,
@@ -111,13 +114,14 @@ class Level:
     def create_magic(self, style, strength, cost):
         if style == 'heal':
             self.magic_player.heal(self.player, strength, cost, [
-                                   self.visible_sprites])
+                self.visible_sprites])
         if style == 'flame':
             self.magic_player.flame(
                 self.player, cost, [self.visible_sprites, self.attack_sprites])
 
 
 # method for destroying the weapon after its animation
+
 
     def destroy_attack(self):
         if self.current_attack:
@@ -159,12 +163,19 @@ class Level:
     def add_exp(self, amount):
         self.player.exp += amount
 
+    def toggle_menu(self):
+        self.game_paused = not self.game_paused
+
     def run(self):
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
-        self.player_attack_logic()
         self.ui.display(self.player)
+
+        if self.game_paused:
+            self.upgrade.display()
+        else:
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.player_attack_logic()
 
 
 # This is the class for camera movement, and to display the character offset of the
