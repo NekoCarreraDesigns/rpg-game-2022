@@ -23,6 +23,12 @@ ui_bg_color = '#222222'
 ui_border_color = '#111111'
 text_color = '#EEEEEE'
 
+# upgrade menu
+text_bar_color = '#111111'
+bar_color = '#EEEEEE'
+bar_color_selected = '#111111'
+upgrade_bg_color_selected = '#EEEEEE'
+
 # weapons
 weapon_data = {
     'sword': {'cooldown': 100, 'damage': 15, 'graphic': './level graphics/graphics/weapons/sword/full.png'},
