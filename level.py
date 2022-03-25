@@ -96,7 +96,10 @@ class Level:
                                         (x, y),
                                         [self.visible_sprites,
                                             self.attackable_sprites],
-                                        self.obstacle_sprites, self.damage_player, self.trigger_death_particles)
+                                        self.obstacle_sprites,
+                                        self.damage_player,
+                                        self.trigger_death_particles,
+                                        self.add_exp)
 
 # method for adding the weapon animations
 
@@ -115,7 +118,6 @@ class Level:
 
 
 # method for destroying the weapon after its animation
-
 
     def destroy_attack(self):
         if self.current_attack:
@@ -153,6 +155,9 @@ class Level:
     def trigger_death_particles(self, pos, particle_type):
         self.animation_player.create_particles(
             particle_type, pos, self.visible_sprites)
+
+    def add_exp(self, amount):
+        self.player.exp += amount
 
     def run(self):
         self.visible_sprites.custom_draw(self.player)
