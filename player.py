@@ -48,6 +48,8 @@ class Player(Enemy):
         # player stats
         self.stats = {'health': 100, 'energy': 60,
                       'attack': 10, 'magic': 4, 'speed': 6}
+        self.max_stats = {'health': 300, 'energy': 140,
+                          'attack': 20, 'magic': 10, 'speed': 12}
         self.health = self.stats['health'] * 0.5
         self.energy = self.stats['energy'] * 0.8
         self.exp = 420
