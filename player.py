@@ -55,7 +55,6 @@ class Player(Enemy):
         self.health = self.stats['health'] * 0.5
         self.energy = self.stats['energy'] * 0.8
         self.exp = 500
-        self.speed = self.stats['speed']
 
         # damage timer
         self.vulnerable = True
@@ -226,5 +225,5 @@ class Player(Enemy):
         self.cooldowns()
         self.get_status()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats['speed'])
         self.energy_recovery()
