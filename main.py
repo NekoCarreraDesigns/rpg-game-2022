@@ -35,7 +35,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_e:
+                    if event.key == pygame.K_p:
                         self.level.toggle_menu()
 
             self.screen.fill((0, 0, 0))
