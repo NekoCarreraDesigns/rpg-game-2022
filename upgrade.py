@@ -8,7 +8,7 @@ class Upgrade:
         self.player = player
         self.attribute_nr = len(player.stats)
         self.attribute_names = list(player.stats.keys())
-        self.max_value = list(player.max_stats.values())
+        self.max_values = list(player.max_stats.values())
         self.font = pygame.font.Font(ui_font, ui_font_size)
 
         # item dimensions
@@ -36,7 +36,7 @@ class Upgrade:
             if keys[pygame.K_SPACE]:
                 self.can_move = False
                 self.select_time = pygame.time.get_ticks()
-                print(self.select_index)
+                self.item_list[self.select_index].trigger(self.player)
 
     def selection_cooldown(self):
         if not self.can_move:
@@ -64,9 +64,10 @@ class Upgrade:
         for index, item in enumerate(self.item_list):
             name = self.attribute_names[index]
             value = self.player.get_value_by_index(index)
-            max_value = self.max_value[index]
+            max_value = self.max_values[index]
             cost = self.player.get_cost_by_index(index)
-            item.display(self.display_surface, 0, 'test', 1, 2, 3)
+            item.display(self.display_surface, self.select_index,
+                         name, value, max_value, cost)
 
 
 class Item:
@@ -75,5 +76,53 @@ class Item:
         self.index = index
         self.font = font
 
+    def display_names(self, surface, name, cost, selected):
+        color = text_bar_color if selected else bar_color
+
+        # title
+        title_surface = self.font.render(name, False, color)
+        title_rect = title_surface.get_rect(
+            midtop=self.rect.midtop + pygame.math.Vector2(0, 20))
+        # cost
+        cost_surf = self.font.render(f'{int(cost)}', False, color)
+        cost_rect = cost_surf.get_rect(
+            midbottom=self.rect.midbottom - pygame.math.Vector2(0, 20))
+
+        # draw
+        surface.blit(title_surface, title_rect)
+        surface.blit(cost_surf, cost_rect)
+
+    def display_bar(self, surface, value, max_value, selected):
+        top = self.rect.midtop + pygame.math.Vector2(0, 60)
+        bottom = self.rect.midbottom - pygame.math.Vector2(0, 60)
+        color = bar_color_selected if selected else bar_color
+
+        full_height = bottom[1] - top[1]
+        relative_number = (value / max_value) * full_height
+        value_rect = pygame.Rect(
+            top[0] - 15, bottom[1] - relative_number, 30, 10)
+
+        pygame.draw.line(surface, color, top, bottom, 5)
+        pygame.draw.rect(surface, color, value_rect)
+
+    def trigger(self, player):
+        upgrade_attribute = list(player.stats.keys())[self.index]
+        if player.exp >= player.upgrade_cost[upgrade_attribute] and player.stats[upgrade_attribute] < player.max_stats[upgrade_attribute]:
+            player.exp -= player.upgrade_cost[upgrade_attribute]
+            player.stats[upgrade_attribute] *= 1.2
+            player.upgrade_cost[upgrade_attribute] *= 1.4
+
+        if player.stats[upgrade_attribute] > player.max_stats[upgrade_attribute]:
+            player.stats[upgrade_attribute] = player.max_stats[upgrade_attribute]
+
     def display(self, surface, selection_num, name, value, max_value, cost):
-        pygame.draw.rect(surface, ui_bg_color, self.rect)
+        if self.index == selection_num:
+            pygame.draw.rect(surface, upgrade_bg_color_selected, self.rect)
+            pygame.draw.rect(surface, ui_border_color, self.rect, 4)
+        else:
+            pygame.draw.rect(surface, ui_bg_color, self.rect)
+            pygame.draw.rect(surface, ui_border_color, self.rect, 4)
+
+        self.display_names(surface, name, cost, self.index == selection_num)
+        self.display_bar(surface, value, max_value,
+                         self.index == selection_num)
