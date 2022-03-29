@@ -13,7 +13,7 @@ class Player(Enemy):
         self.image = pygame.image.load(
             './level graphics/graphics/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(0, -26)
+        self.hitbox = self.rect.inflate(-6, hitbox_offset['player'])
 
         # graphics setup
         self.import_player_assets()
@@ -61,9 +61,11 @@ class Player(Enemy):
         self.player_hit_time = None
         self.player_hit_duration = 500
 
-
+        # sounds
+        self.weapon_attack_sound = pygame.mixer.Sound(
+            './level graphics/audio/sword.wav')
+        self.weapon_attack.set_volume(0.4)
 # player animations
-
 
     def import_player_assets(self):
         character_path = './level graphics/graphics/player/'
@@ -76,7 +78,6 @@ class Player(Enemy):
 
 
 # method for player status
-
 
     def get_status(self):
         # idle status
@@ -124,6 +125,7 @@ class Player(Enemy):
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
+                self.weapon_attack_sound.play()
             # magic input
             if keys[pygame.K_LCTRL]:
                 self.attacking = True
