@@ -38,7 +38,7 @@ class Game:
                     if event.key == pygame.K_p:
                         self.level.toggle_menu()
 
-            self.screen.fill((0, 0, 0))
+            self.screen.fill(water_color)
             self.level.run()
             pygame.display.update()
             self.clock.tick(fps)
