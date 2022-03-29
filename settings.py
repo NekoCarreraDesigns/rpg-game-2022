@@ -4,6 +4,13 @@ fps = 60
 screen_width = 1200
 screen_height = 720
 
+hitbox_offset = {
+    'player': -26,
+    'object': -40,
+    'grass': -10,
+    'invisible': 0
+}
+
 # ui
 bar_height = 20
 health_bar_width = 200
